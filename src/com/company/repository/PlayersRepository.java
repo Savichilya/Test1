@@ -19,7 +19,7 @@ public class PlayersRepository {
     }
 
     public Players addPlayers(Players players) throws SQLException {
-        try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("INSERT INTO players(name_p, age) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS )) {
+        try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("INSERT INTO players(name_p, age) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS)) {
             prepareStatement.setString(1, players.getName_p());
             prepareStatement.setInt(2, players.getAge());
             prepareStatement.execute();
@@ -45,6 +45,8 @@ public class PlayersRepository {
                 players.setId_p(resultSet.getInt("id_p"));
                 players.setName_p(resultSet.getString("name_p"));
                 players.setAge(resultSet.getInt("age"));
+                players.setFoot_clubs(Foot_clubsRepository.getInstance().getById(resultSet.getInt("id_p")));
+
             }
             return players;
         }

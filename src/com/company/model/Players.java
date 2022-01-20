@@ -4,8 +4,9 @@ public class Players {
     private Integer id_p;
     private String name_p;
     private Integer age;
+    private Foot_clubs foot_clubs;
 
-    public Integer getId_p(){
+    public Integer getId_p() {
         return id_p;
     }
 
@@ -27,6 +28,14 @@ public class Players {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public Foot_clubs getFoot_clubs() {
+        return foot_clubs;
+    }
+
+    public void setFoot_clubs(Foot_clubs foot_clubs) {
+        this.foot_clubs = foot_clubs;
     }
 
     @Override

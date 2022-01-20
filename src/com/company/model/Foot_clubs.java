@@ -4,7 +4,6 @@ public class Foot_clubs {
     private Integer id_fc;
     private String name_fc;
     private Integer year_birth;
-    private Players players;
 
     public Integer getId_fc() {
         return id_fc;
@@ -28,14 +27,6 @@ public class Foot_clubs {
 
     public void setYear_birth(Integer year_birth) {
         this.year_birth = year_birth;
-    }
-
-    public Players getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(Players players) {
-        this.players = players;
     }
 
     @Override

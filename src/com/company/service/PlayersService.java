@@ -9,7 +9,8 @@ public class PlayersService {
 
     private static PlayersService instance;
 
-    private PlayersService () {}
+    private PlayersService() {
+    }
 
     public static PlayersService getInstance() {
         if (instance == null) {
@@ -18,7 +19,7 @@ public class PlayersService {
         return instance;
     }
 
-    public Players savePlayers(Players  players) throws SQLException {
+    public Players savePlayers(Players players) throws SQLException {
         return PlayersRepository.getInstance().addPlayers(players);
     }
 }
