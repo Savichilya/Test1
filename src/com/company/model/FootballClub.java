@@ -4,7 +4,6 @@ public class FootballClub {
     private Integer idFootballClub;
     private String nameFootballClub;
     private Integer yearBirth;
-    private Player player;
 
     public Integer getIdFootballClub() {
         return idFootballClub;
@@ -28,14 +27,6 @@ public class FootballClub {
 
     public void setYearBirth(Integer yearBirth) {
         this.yearBirth = yearBirth;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
     }
 
     @Override

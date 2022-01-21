@@ -4,7 +4,7 @@ public class Player {
     private Integer idPlayer;
     private String namePlayer;
     private Integer age;
-    private Integer idFootballClub;
+    private FootballClub footballClub;
 
     public Integer getIdPlayer() {
         return idPlayer;
@@ -30,12 +30,12 @@ public class Player {
         this.age = age;
     }
 
-    public Integer getIdFootballClub() {
-        return idFootballClub;
+    public FootballClub getFootballClub() {
+        return footballClub;
     }
 
-    public void setIdFootballClub(Integer idFootballClub) {
-        this.idFootballClub = idFootballClub;
+    public void setFootballClub(FootballClub footballClub) {
+        this.footballClub = footballClub;
     }
 
     @Override

@@ -49,7 +49,7 @@ public class FootballClubRepository {
                 footClub.setIdFootballClub(resultSet.getInt("id_fc"));
                 footClub.setNameFootballClub(resultSet.getString("name_fc"));
                 footClub.setYearBirth(resultSet.getInt("year_birth"));
-                footClub.setPlayer(PlayerRepository.getInstance().getById(resultSet.getInt("id_fc")));
+
             }
             return footClub;
         }

@@ -36,7 +36,7 @@ public class PlayerRepository {
     }
 
     public Player getById(int id) throws SQLException {
-        try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT id_p, name_p, age, id_fc from players where id_p=?")) {
+        try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT id_p, name_p, age from players where id_p=?")) {
             prepareStatement.setInt(1, id);
             ResultSet resultSet = prepareStatement.executeQuery();
             Player player = null;
@@ -45,8 +45,7 @@ public class PlayerRepository {
                 player.setIdPlayer(resultSet.getInt("id_p"));
                 player.setNamePlayer(resultSet.getString("name_p"));
                 player.setAge(resultSet.getInt("age"));
-                player.setIdFootballClub(resultSet.getInt("id_fc"));
-
+                player.setFootballClub(FootballClubRepository.getInstance().getById(resultSet.getInt("id_p")));
             }
             return player;
         }
