@@ -1,19 +1,19 @@
 package com.company;
 
-import com.company.model.Foot_clubs;
-import com.company.model.Players;
-import com.company.repository.Foot_clubsRepository;
-import com.company.repository.PlayersRepository;
+import com.company.model.FootballClub;
+import com.company.model.Player;
+import com.company.repository.FootballClubRepository;
+import com.company.repository.PlayerRepository;
 
 import java.sql.*;
 
 public class Main {
 
     public static void main(String[] args) throws SQLException {
-        Players players = PlayersRepository.getInstance().getById(3);
-        System.out.println(players);
+        Player player = PlayerRepository.getInstance().getById(3);
+        System.out.println(player);
 
-        Foot_clubs foot_clubs = Foot_clubsRepository.getInstance().getById(2);
-        System.out.println(foot_clubs);
+        FootballClub footballClub = FootballClubRepository.getInstance().getById(2);
+        System.out.println(footballClub);
     }
 }
