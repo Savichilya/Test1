@@ -19,9 +19,10 @@ public class PlayerRepository {
     }
 
     public Player addPlayer(Player player) throws SQLException {
-        try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("INSERT INTO players(name_p, age) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("INSERT INTO players(name_p, age, id_fc) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
             prepareStatement.setString(1, player.getNamePlayer());
             prepareStatement.setInt(2, player.getAge());
+            prepareStatement.setInt(2, player.getIdFotballClub());
             prepareStatement.execute();
 
             try (ResultSet generatedKeys = prepareStatement.getGeneratedKeys()) {
@@ -36,7 +37,7 @@ public class PlayerRepository {
     }
 
     public Player getById(int id) throws SQLException {
-        try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT id_p, name_p, age from players where id_p=?")) {
+        try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT id_p, name_p, age, id_fc from players where id_p=?")) {
             prepareStatement.setInt(1, id);
             ResultSet resultSet = prepareStatement.executeQuery();
             Player player = null;
@@ -45,7 +46,7 @@ public class PlayerRepository {
                 player.setIdPlayer(resultSet.getInt("id_p"));
                 player.setNamePlayer(resultSet.getString("name_p"));
                 player.setAge(resultSet.getInt("age"));
-                player.setFootballClub(FootballClubRepository.getInstance().getById(resultSet.getInt("id_p")));
+                player.setFootballClub(FootballClubRepository.getInstance().getById(resultSet.getInt("id_fc")));
             }
             return player;
         }
