@@ -1,5 +1,6 @@
 package com.company.repository;
 
+import com.company.model.FootballClub;
 import com.company.model.Player;
 
 import java.sql.*;
@@ -22,7 +23,7 @@ public class PlayerRepository {
         try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("INSERT INTO players(name_p, age, id_fc) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
             prepareStatement.setString(1, player.getNamePlayer());
             prepareStatement.setInt(2, player.getAge());
-            prepareStatement.setInt(2, player.getIdFotballClub());
+            prepareStatement.setInt(3, FootballClub.getIdFootballClub());
             prepareStatement.execute();
 
             try (ResultSet generatedKeys = prepareStatement.getGeneratedKeys()) {

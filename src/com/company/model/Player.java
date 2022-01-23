@@ -4,7 +4,6 @@ public class Player {
     private Integer idPlayer;
     private String namePlayer;
     private Integer age;
-    private Integer idFotballClub;
     private FootballClub footballClub;
 
     public Integer getIdPlayer() {
@@ -29,14 +28,6 @@ public class Player {
 
     public void setAge(Integer age) {
         this.age = age;
-    }
-
-    public Integer getIdFotballClub() {
-        return idFotballClub;
-    }
-
-    public void setIdFotballClub(Integer idFotballClub) {
-        this.idFotballClub = idFotballClub;
     }
 
     public FootballClub getFootballClub() {
