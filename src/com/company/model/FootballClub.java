@@ -1,11 +1,11 @@
 package com.company.model;
 
 public class FootballClub {
-    public static Integer idFootballClub;
+    public Integer idFootballClub;
     private String nameFootballClub;
     private Integer yearBirth;
 
-    public static Integer getIdFootballClub() {
+    public Integer getIdFootballClub() {
         return idFootballClub;
     }
 

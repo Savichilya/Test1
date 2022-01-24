@@ -1,6 +1,6 @@
 package com.company.model;
 
-public class Player {
+public class Player extends FootballClub {
     private Integer idPlayer;
     private String namePlayer;
     private Integer age;

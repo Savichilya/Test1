@@ -10,10 +10,13 @@ import java.sql.*;
 public class Main {
 
     public static void main(String[] args) throws SQLException {
+       /*
         Player player = PlayerRepository.getInstance().getById(3);
         System.out.println(player);
 
         FootballClub footballClub = FootballClubRepository.getInstance().getById(2);
         System.out.println(footballClub);
+        */
+        System.out.println(PlayerRepository.getInstance().getPlayerByIdWithJoin(3).get());
     }
 }
