@@ -24,7 +24,7 @@ public class PlayerRepository {
         try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("INSERT INTO players(name_p, age, id_fc) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
             prepareStatement.setString(1, player.getNamePlayer());
             prepareStatement.setInt(2, player.getAge());
-            prepareStatement.setInt(3, player.getFootballClub().getIdFootballClub());
+            prepareStatement.setInt(3, player.getFootballClub() !=null ? player.getFootballClub().getIdFootballClub():null);
             prepareStatement.execute();
 
             try (ResultSet generatedKeys = prepareStatement.getGeneratedKeys()) {
