@@ -1,7 +1,7 @@
 package com.company.model;
 
 public class FootballClub {
-    public Integer idFootballClub;
+    private Integer idFootballClub;
     private String nameFootballClub;
     private Integer yearBirth;
 
