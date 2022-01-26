@@ -39,11 +39,9 @@ public class Player extends FootballClub {
     }
 
     @Override
-   /* public String toString() {
+    public String toString() {
         return String.format("Players: id_p=%d,name_p=%s, age=%d, id_fc=%d, name_fc=%s", idPlayer, namePlayer, age, footballClub.getIdFootballClub(), footballClub.getNameFootballClub());
     }
-    */
-    public String toString() {
-        return String.format("Players: id_fc=%d", footballClub.getIdFootballClub());
-    }
+
+
 }

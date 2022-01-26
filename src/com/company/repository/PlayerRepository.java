@@ -85,7 +85,7 @@ public class PlayerRepository {
     }
 
     public List<Player> returnPlayerOfFootballClub(FootballClub footballClub) throws SQLException {
-        List <Player> players=new ArrayList<>();
+        List<Player> players = new ArrayList<>();
         try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT p.id_p, " +
                 "p.name_p, p.age, f.id_fc, f.name_fc from players p " +
                 "JOIN foot_clubs f ON f.id_fc=p.id_fc WHERE f.id_fc=?")) {
@@ -93,29 +93,31 @@ public class PlayerRepository {
             ResultSet resultSet = prepareStatement.executeQuery();
 
             while (resultSet.next()) {
-                    Player player = new Player();
-                    player.setIdPlayer(resultSet.getInt("id_p"));
-                    player.setNamePlayer(resultSet.getString("name_p"));
-                    player.setAge(resultSet.getInt("age"));
+                Player player = new Player();
+                player.setIdPlayer(resultSet.getInt("id_p"));
+                player.setNamePlayer(resultSet.getString("name_p"));
+                player.setAge(resultSet.getInt("age"));
 
-                    if (resultSet.getInt("id_fc") != 0) {
-                        footballClub.setIdFootballClub(resultSet.getInt("id_fc"));
-                        footballClub.setNameFootballClub(resultSet.getString("name_fc"));
-                        player.setFootballClub(footballClub);
-                    }
-                    players.add(player);
+                if (resultSet.getInt("id_fc") != 0) {
+                    footballClub.setIdFootballClub(resultSet.getInt("id_fc"));
+                    footballClub.setNameFootballClub(resultSet.getString("name_fc"));
+                    player.setFootballClub(footballClub);
                 }
+                players.add(player);
             }
-            return players;
+        }
+        return players;
     }
 
     public int returnNumberOfPlayerInFootballClub(int id) throws SQLException {
-        int number=0;
+        int number = 0;
         try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT COUNT(*)" +
                 " FROM Players WHERE id_fc=?")) {
             prepareStatement.setInt(1, id);
             ResultSet resultSet = prepareStatement.executeQuery();
-
+            if (resultSet.next()) {
+                number = resultSet.getInt(1);
+            }
         }
         return number;
     }
