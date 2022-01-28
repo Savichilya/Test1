@@ -84,7 +84,7 @@ public class PlayerRepository {
         return Optional.empty();
     }
 
-    public List<Player> returnPlayerOfFootballClub(FootballClub footballClub) throws SQLException {
+    public List<Player> returnPlayersOfFootballClub(FootballClub footballClub) throws SQLException {
         List<Player> players = new ArrayList<>();
         try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT p.id_p, " +
                 "p.name_p, p.age, f.id_fc, f.name_fc from players p " +

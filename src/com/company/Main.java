@@ -14,12 +14,14 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
 
-        System.out.println("Сумма клубов = " + PlayerRepository.getInstance().returnNumberOfPlayerInFootballClub(3));
+        System.out.println("Клубы у которых больше заявленного вами количества игроков = " + FootballClubRepository.getInstance().returnNumbersFootballClubsByID(5));
+
+        //System.out.println("Сумма клубов = " + PlayerRepository.getInstance().returnNumberOfPlayerInFootballClub(3));
 
         /*
         FootballClub footballClub1 = new FootballClub();
         footballClub1.setIdFootballClub(1);
-        System.out.println(PlayerRepository.getInstance().returnPlayerOfFootballClub(footballClub1));
+        System.out.println(PlayerRepository.getInstance().returnPlayersOfFootballClub(footballClub1));
 */
 
 
