@@ -4,6 +4,7 @@ public class Player extends FootballClub {
     private Integer idPlayer;
     private String namePlayer;
     private Integer age;
+    private Integer idFootballClub;
     private FootballClub footballClub;
 
     public Integer getIdPlayer() {
@@ -39,7 +40,19 @@ public class Player extends FootballClub {
     }
 
     @Override
-    public String toString() {
-        return String.format("Players: id_p=%d,name_p=%s, age=%d", idPlayer, namePlayer, age);
+    public Integer getIdFootballClub() {
+        return idFootballClub;
     }
+
+    @Override
+    public void setIdFootballClub(Integer idFootballClub) {
+        this.idFootballClub = idFootballClub;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Players: id_p=%d,name_p=%s, age=%d, id_fc=%d, name_fc=%s", idPlayer, namePlayer, age, footballClub.getIdFootballClub(), footballClub.getNameFootballClub());
+    }
+
+
 }

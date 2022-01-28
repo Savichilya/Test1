@@ -1,11 +1,14 @@
 package com.company.repository;
 
 import com.company.model.FootballClub;
+import com.company.model.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class FootballClubRepository {
@@ -48,9 +51,27 @@ public class FootballClubRepository {
                 footballClub.setIdFootballClub(resultSet.getInt("id_fc"));
                 footballClub.setNameFootballClub(resultSet.getString("name_fc"));
                 footballClub.setYearBirth(resultSet.getInt("year_birth"));
-return Optional.of(footballClub);
+                return Optional.of(footballClub);
             }
             return Optional.empty();
         }
     }
+
+    public List<FootballClub> returnNumbersFootballClubsByID(int id) throws SQLException {
+        List<FootballClub> footballClubList = new ArrayList<>();
+        try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT f.name_fc," +
+                " COUNT(p.id_fc) AS numberOfPlayers FROM players p JOIN foot_clubs f ON p.id_fc=f.id_fc GROUP BY f.name_fc" +
+                " HAVING COUNT(p.id_fc)>?")) {
+            prepareStatement.setInt(1, id);
+            ResultSet resultSet = prepareStatement.executeQuery();
+            while (resultSet.next()) {
+                FootballClub footballClub = new FootballClub();
+                footballClub.setNameFootballClub(resultSet.getString("name_fc"));
+                footballClubList.add(footballClub);
+            }
+        }
+        return footballClubList;
+    }
+
+
 }
