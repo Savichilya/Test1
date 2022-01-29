@@ -73,5 +73,18 @@ public class FootballClubRepository {
         return footballClubList;
     }
 
+    public List<FootballClub> returnFootballClubsByYear(int a) throws SQLException {
+        List<FootballClub> footballClubsArrayList = new ArrayList<>();
+        try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT name_fc FROM foot_clubs WHERE year_birth LIKE ?")) {
+            prepareStatement.setInt(1, a);
+            ResultSet resultSet = prepareStatement.executeQuery();
 
+            while (resultSet.next()) {
+                FootballClub footballClubs = new FootballClub();
+                footballClubs.setNameFootballClub(resultSet.getString("name_fc"));
+                footballClubsArrayList.add(footballClubs);
+            }
+        }
+        return footballClubsArrayList;
+    }
 }

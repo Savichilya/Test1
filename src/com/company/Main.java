@@ -11,10 +11,36 @@ import java.util.List;
 import java.util.Optional;
 
 public class Main {
-
     public static void main(String[] args) throws SQLException {
 
-        System.out.println("Клубы у которых больше заявленного вами количества игроков = " + FootballClubRepository.getInstance().returnNumbersFootballClubsByID(5));
+        List<Player> players = PlayerRepository.getInstance().returnPlayersSameName();
+        for (int i=0; i<players.size(); i++) {
+            if (players.get(i).getNamePlayer().equals(players.get(i++).getNamePlayer()) == true) {
+                System.out.println(players.get(i).getNamePlayer());
+            }
+        }
+/*
+    List<FootballClub> footballClubs = FootballClubRepository.getInstance().returnFootballClubsByYear(1910);
+        for (int i=0; i<footballClubs.size(); i++){
+        System.out.println(footballClubs.get(i).getNameFootballClub());
+    }
+ */
+
+    /*
+           List<Player> players=PlayerRepository.getInstance().returnPlayersByName("S");
+        for (int i=0; i< players.size(); i++){
+            System.out.println(players.get(i).getNamePlayer());
+        }
+         */
+
+/*
+        List<FootballClub> footballClubs = FootballClubRepository.getInstance().returnNumbersFootballClubsByID(5);
+        for (int i=0; i<footballClubs.size(); i++){
+            System.out.println(footballClubs.get(i).getNameFootballClub());
+        }
+ */
+
+        //System.out.println("Клубы у которых больше заявленного вами количества игроков = " + FootballClubRepository.getInstance().returnNumbersFootballClubsByID(5));
 
         //System.out.println("Сумма клубов = " + PlayerRepository.getInstance().returnNumberOfPlayerInFootballClub(3));
 

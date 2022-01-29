@@ -4,7 +4,6 @@ public class FootballClub {
     private Integer idFootballClub;
     private String nameFootballClub;
     private Integer yearBirth;
-    Player player;
 
     public Integer getIdFootballClub() {
         return idFootballClub;
@@ -32,6 +31,6 @@ public class FootballClub {
 
     @Override
     public String toString() {
-        return String.format("Foot_clubs: id_fc=%d, name_fc=%s, year_birth=%d", "Player: id_fc=%d", idFootballClub, nameFootballClub, yearBirth, player.getIdFootballClub());
+        return String.format("Foot_clubs: id_fc=%d, name_fc=%s, year_birth=%d", idFootballClub, nameFootballClub, yearBirth);
     }
 }

@@ -122,6 +122,22 @@ public class PlayerRepository {
         return number;
     }
 
+    public List<Player> returnPlayersByName(String s) throws SQLException {
+        List<Player> playerArrayList = new ArrayList<>();
+                try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT name_p FROM" +
+                " players WHERE name_p LIKE ?")) {
+           prepareStatement.setString(1, "s%");
+            ResultSet resultSet = prepareStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Player player = new Player();
+                player.setNamePlayer(resultSet.getString("name_p"));
+                playerArrayList.add(player);
+            }
+        }
+        return playerArrayList;
+    }
+
     public void updatePlayer(String name_p, int age, int Id_p) throws SQLException {
         try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("UPDATE players SET name_p = ?, age=? WHERE id_p=?")) {
             prepareStatement.setString(1, name_p);
@@ -129,6 +145,20 @@ public class PlayerRepository {
             prepareStatement.setInt(3, Id_p);
             prepareStatement.execute();
         }
+    }
+    public List<Player> returnPlayersSameName() throws SQLException {
+        List<Player> playerArrayList = new ArrayList<>();
+        try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT name_p FROM" +
+                " players")) {
+            ResultSet resultSet = prepareStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Player player = new Player();
+                player.setNamePlayer(resultSet.getString("name_p"));
+                playerArrayList.add(player);
+            }
+        }
+        return playerArrayList;
     }
 
 
