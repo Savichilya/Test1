@@ -1,8 +1,15 @@
 package com.company.model;
 
+import com.company.annotation.Column;
+
 public class FootballClub {
+    @Column("id_fc")
     private Integer idFootballClub;
+
+    @Column("name_fc")
     private String nameFootballClub;
+
+    @Column("year_birth")
     private Integer yearBirth;
 
     public Integer getIdFootballClub() {

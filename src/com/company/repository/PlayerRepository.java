@@ -1,8 +1,10 @@
 package com.company.repository;
 
+import com.company.annotation.Column;
 import com.company.model.FootballClub;
 import com.company.model.Player;
 
+import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,26 +42,33 @@ public class PlayerRepository {
         }
     }
 
-    public Optional<Player> getById(int id) throws SQLException {
-        try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT id_p, name_p, age, id_fc from players where id_p=?")) {
+    public Optional<Player> getById(int id) throws SQLException, IllegalAccessException {
+        try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT id_p, name_p, age from players where id_p=?")) {
             prepareStatement.setInt(1, id);
             ResultSet resultSet = prepareStatement.executeQuery();
             if (resultSet.next()) {
                 Player player = new Player();
-                player.setIdPlayer(resultSet.getInt("id_p"));
-                player.setNamePlayer(resultSet.getString("name_p"));
-                player.setAge(resultSet.getInt("age"));
-                Optional<FootballClub> optionalFootballClub = FootballClubRepository.getInstance().getById(resultSet.getInt("id_fc"));
-                if (optionalFootballClub.isPresent()) {
-                    player.setFootballClub(optionalFootballClub.get());
+                for (Field field : Player.class.getDeclaredFields()) {
+                    if (field.isAnnotationPresent(Column.class)) {
+                        field.setAccessible(true);
+                        Column column = field.getAnnotation(Column.class);
+                        String columnName = column.value();
+                        Object value = null;
+                        if (field.getGenericType() == String.class) {
+                            value = resultSet.getString(columnName);
+                        } else if (field.getGenericType() == Integer.class) {
+                            value = resultSet.getInt(columnName);
+                        }
+                        field.set(player, value);
+                    }
                 }
                 return Optional.of(player);
-            }
-            return Optional.empty();
         }
+        return Optional.empty();
     }
+}
 
-    public Optional<Player> getPlayerByIdWithJoin(int id) throws SQLException {
+    public Optional<Player> getPlayerByIdWithJoin(int id) throws SQLException, IllegalAccessException {
         try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT p.id_p, p.name_p, " +
                 " p.age, f.id_fc, f.name_fc, f.year_birth from players p " +
                 " JOIN foot_clubs f ON f.id_fc=p.id_fc WHERE p.id_p=?")) {
@@ -67,16 +76,36 @@ public class PlayerRepository {
             ResultSet resultSet = prepareStatement.executeQuery();
             if (resultSet.next()) {
                 Player player = new Player();
-                player.setIdPlayer(resultSet.getInt("id_p"));
-                player.setNamePlayer(resultSet.getString("name_p"));
-                player.setAge(resultSet.getInt("age"));
-
+                for (Field field : Player.class.getDeclaredFields()) {
+                    if (field.isAnnotationPresent(Column.class)) {
+                        field.setAccessible(true);
+                        Column column = field.getAnnotation(Column.class);
+                        String columnName = column.value();
+                        Object value = null;
+                        if (field.getGenericType() == String.class) {
+                            value = resultSet.getString(columnName);
+                        } else if (field.getGenericType() == Integer.class) {
+                            value = resultSet.getInt(columnName);
+                        }
+                        field.set(player, value);
+                    }
+                }
                 if (resultSet.getString("id_fc") != null) {
                     FootballClub footballClub = new FootballClub();
-                    footballClub.setIdFootballClub(resultSet.getInt("id_fc"));
-                    footballClub.setNameFootballClub(resultSet.getString("name_fc"));
-                    footballClub.setYearBirth(resultSet.getInt("year_birth"));
-                    player.setFootballClub(footballClub);
+                    for (Field field : FootballClub.class.getDeclaredFields()) {
+                        if (field.isAnnotationPresent(Column.class)) {
+                            field.setAccessible(true);
+                            Column column = field.getAnnotation(Column.class);
+                            String columnName = column.value();
+                            Object value = null;
+                            if (field.getGenericType() == String.class) {
+                                value = resultSet.getString(columnName);
+                            } else if (field.getGenericType() == Integer.class) {
+                                value = resultSet.getInt(columnName);
+                            }
+                            field.set(footballClub, value);
+                        }
+                    }
                 }
                 return Optional.of(player);
             }
@@ -124,9 +153,9 @@ public class PlayerRepository {
 
     public List<Player> returnPlayersByName(String s) throws SQLException {
         List<Player> playerArrayList = new ArrayList<>();
-                try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT name_p FROM" +
+        try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT name_p FROM" +
                 " players WHERE name_p LIKE ?")) {
-           prepareStatement.setString(1, "s%");
+            prepareStatement.setString(1, s + "%");
             ResultSet resultSet = prepareStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -146,10 +175,11 @@ public class PlayerRepository {
             prepareStatement.execute();
         }
     }
+
     public List<Player> returnPlayersSameName() throws SQLException {
         List<Player> playerArrayList = new ArrayList<>();
         try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT name_p FROM" +
-                " players")) {
+                " players ORDER BY name_p ASC")) {
             ResultSet resultSet = prepareStatement.executeQuery();
 
             while (resultSet.next()) {

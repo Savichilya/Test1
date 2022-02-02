@@ -1,8 +1,16 @@
 package com.company.model;
 
+import com.company.annotation.Column;
+
 public class Player extends FootballClub {
+
+    @Column("id_p")
     private Integer idPlayer;
+
+    @Column("name_p")
     private String namePlayer;
+
+    @Column("age")
     private Integer age;
     private FootballClub footballClub;
 
@@ -40,7 +48,8 @@ public class Player extends FootballClub {
 
     @Override
     public String toString() {
-        return String.format("Players: id_p=%d,name_p=%s, age=%d, id_fc=%d, name_fc=%s", idPlayer, namePlayer, age, footballClub.getIdFootballClub(), footballClub.getNameFootballClub());
+        return String.format("Players: id_p=%d,name_p=%s, age=%d, foot_clubs.id_fc=%d, foot_clubs.name_fc=%s, " +
+                "foot_clubs.year_birth=%d", idPlayer, namePlayer, age, footballClub.getIdFootballClub(), footballClub.getNameFootballClub(), footballClub.getYearBirth());
     }
 
 

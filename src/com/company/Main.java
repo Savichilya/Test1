@@ -11,14 +11,18 @@ import java.util.List;
 import java.util.Optional;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, IllegalAccessException {
 
+
+/*
         List<Player> players = PlayerRepository.getInstance().returnPlayersSameName();
-        for (int i=0; i<players.size(); i++) {
-            if (players.get(i).getNamePlayer().equals(players.get(i++).getNamePlayer()) == true) {
+        for (int i=0; i<players.size()-1; i++) {
+            if (players.get(i).getNamePlayer().equals(players.get(i+1).getNamePlayer()) == true) {
                 System.out.println(players.get(i).getNamePlayer());
             }
         }
+ */
+
 /*
     List<FootballClub> footballClubs = FootballClubRepository.getInstance().returnFootballClubsByYear(1910);
         for (int i=0; i<footballClubs.size(); i++){
@@ -26,12 +30,12 @@ public class Main {
     }
  */
 
-    /*
+/*
            List<Player> players=PlayerRepository.getInstance().returnPlayersByName("S");
         for (int i=0; i< players.size(); i++){
             System.out.println(players.get(i).getNamePlayer());
         }
-         */
+*/
 
 /*
         List<FootballClub> footballClubs = FootballClubRepository.getInstance().returnNumbersFootballClubsByID(5);
@@ -73,14 +77,14 @@ public class Main {
         }
 */
 
-       /*
-        Player player = PlayerRepository.getInstance().getById(3);
+/*
+        Player player = PlayerRepository.getInstance().getById(2).get();
         System.out.println(player);
 
-        FootballClub footballClub = FootballClubRepository.getInstance().getById(2);
+        FootballClub footballClub = FootballClubRepository.getInstance().getById(1).get();
         System.out.println(footballClub);
-        */
+*/
 
-        // System.out.println(PlayerRepository.getInstance().getPlayerByIdWithJoin(3).get());
+         System.out.println(PlayerRepository.getInstance().getPlayerByIdWithJoin(3).get());
     }
 }
