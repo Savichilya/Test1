@@ -1,8 +1,10 @@
 package com.company.repository;
 
+import com.company.annotation.Column;
 import com.company.model.FootballClub;
 import com.company.model.Player;
 
+import java.lang.reflect.Field;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,22 +44,33 @@ public class FootballClubRepository {
         }
     }
 
-    public Optional<FootballClub> getById(int id) throws SQLException {
+    public Optional<FootballClub> getById(int id) throws SQLException, IllegalAccessException {
         try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT id_fc, name_fc, year_birth from foot_clubs where id_fc=?")) {
             prepareStatement.setInt(1, id);
             ResultSet resultSet = prepareStatement.executeQuery();
             if (resultSet.next()) {
                 FootballClub footballClub = new FootballClub();
-                footballClub.setIdFootballClub(resultSet.getInt("id_fc"));
-                footballClub.setNameFootballClub(resultSet.getString("name_fc"));
-                footballClub.setYearBirth(resultSet.getInt("year_birth"));
+                for (Field field : FootballClub.class.getDeclaredFields()) {
+                    if (field.isAnnotationPresent(Column.class)) {
+                        field.setAccessible(true);
+                        Column column = field.getAnnotation(Column.class);
+                        String columnName = column.value();
+                        Object value = null;
+                        if (field.getGenericType() == String.class) {
+                            value = resultSet.getString(columnName);
+                        } else if (field.getGenericType() == Integer.class) {
+                            value = resultSet.getInt(columnName);
+                        }
+                        field.set(footballClub, value);
+                    }
+                }
                 return Optional.of(footballClub);
             }
             return Optional.empty();
         }
     }
 
-    public List<FootballClub> returnNumbersFootballClubsByID(int id) throws SQLException {
+    public List<FootballClub> returnNumbersFootballClubsByID(int id) throws SQLException, IllegalAccessException {
         List<FootballClub> footballClubList = new ArrayList<>();
         try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT f.name_fc," +
                 " COUNT(p.id_fc) AS numberOfPlayers FROM players p JOIN foot_clubs f ON p.id_fc=f.id_fc GROUP BY f.name_fc" +
@@ -66,25 +79,47 @@ public class FootballClubRepository {
             ResultSet resultSet = prepareStatement.executeQuery();
             while (resultSet.next()) {
                 FootballClub footballClub = new FootballClub();
-                footballClub.setNameFootballClub(resultSet.getString("name_fc"));
+                for (Field field : FootballClub.class.getDeclaredFields()) {
+                    if (field.isAnnotationPresent(Column.class)) {
+                        field.setAccessible(true);
+                        Column column = field.getAnnotation(Column.class);
+                        String columnName = column.value();
+                        Object value = null;
+                        if (field.getGenericType() == String.class) {
+                            value = resultSet.getString(columnName);
+                        }
+                        field.set(footballClub, value);
+                    }
+                }
                 footballClubList.add(footballClub);
             }
+            return footballClubList;
         }
-        return footballClubList;
     }
 
-    public List<FootballClub> returnFootballClubsByYear(int a) throws SQLException {
+    public List<FootballClub> returnFootballClubsByYear(int a) throws SQLException, IllegalAccessException {
         List<FootballClub> footballClubsArrayList = new ArrayList<>();
         try (PreparedStatement prepareStatement = ConnectionHolder.getConnection().prepareStatement("SELECT name_fc FROM foot_clubs WHERE year_birth LIKE ?")) {
             prepareStatement.setInt(1, a);
             ResultSet resultSet = prepareStatement.executeQuery();
 
             while (resultSet.next()) {
-                FootballClub footballClubs = new FootballClub();
-                footballClubs.setNameFootballClub(resultSet.getString("name_fc"));
-                footballClubsArrayList.add(footballClubs);
+                FootballClub footballClub = new FootballClub();
+                for (Field field : FootballClub.class.getDeclaredFields()) {
+                    if (field.isAnnotationPresent(Column.class)) {
+                        field.setAccessible(true);
+                        Column column = field.getAnnotation(Column.class);
+                        String columnName = column.value();
+                        Object value = null;
+                        if (field.getGenericType() == String.class) {
+                            value = resultSet.getString(columnName);
+                            field.set(footballClub, value);
+                        }
+                    }
+                }
+                footballClubsArrayList.add(footballClub);
             }
+            return footballClubsArrayList;
         }
-        return footballClubsArrayList;
     }
 }
